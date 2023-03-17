@@ -1,0 +1,66 @@
+# Hecho con gusto por Leislie R. Manjarrez O.
+
+# Laboratorio 54- Parte 1- Grafico de dispersion con histogramas marginales en ggplot2 
+
+# Instalamos la paqueteria a utilizar
+install.packages("ggplot2")
+install.packages("ggExtra")
+
+# Llamamos a las librerias correspondientes
+library(ggplot2)
+library(ggExtra)
+
+# La funcion ggMarginal del paquete ggExtra permite anadir histogramas marginales a un grafico de dispersion ya creado. 
+# Para tal proposito hay que guardar el diagrama de dispersion hecho con ggplot2 dentro de una variable y pasarlo a ggMarginal, especificando type = "histogram"
+p <- ggplot(cars, aes(x = speed, y = dist)) +
+  geom_point()
+
+# Creamos el grafico con histogramas marginales
+ggMarginal(p, type = "histogram") 
+
+# Para dejar el histograma solo en el eje x ejecutamos la siguiente linea de codigo
+ggMarginal(p, type = "histogram", 
+           margins = "x")
+
+# Para dejar el histograma solo en el eje y ejecutamos la siguiente linea de codigo
+ggMarginal(p, type = "histogram", 
+           margins = "y")
+
+# El argumento size modifica el tamano relativo entre los histogramas y el grafico de dispersion. 
+# El valor por defecto es 5
+ggMarginal(p, type = "histogram", 
+           size = 3)
+
+# Para personalizar las barras utilizamos el siguiente comando
+ggMarginal(p, type = "histogram", 
+           binwidth = 4)
+
+# Para superponer las curvas de densidad de los histogramas usamos type = "densigram"
+ggMarginal(p, type = "densigram")
+
+# Para cambiar el color de fondo de los histogramas utilizamos fill
+ggMarginal(p, type = "histogram", 
+           fill = 4)
+
+# Para personalizar el color del borde usamos el argumento col
+ggMarginal(p, type = "histogram", 
+           fill = "white",
+           col = 4)
+
+# Para personalizar cada histograma por separado, pasa una lista de argumentos para cada eje con xparams e yparams
+ggMarginal(p, type = "histogram", 
+           xparams = list(fill = 4),
+           yparams = list(fill = 3))
+
+# Si tu conjunto de datos contiene una variable categorica que representa grupos puedes crear histogramas para cada grupo en cada margen
+# Variable categórica de ejemplo
+cars$grupo <- c(rep("A", 25), rep("B", 25))
+
+# Guarda el gráfico de dispersión en una variable
+p <- ggplot(cars, aes(x = speed, y = dist, color = grupo)) +
+  geom_point()
+
+# Crea histogramas marginales por grupo
+ggMarginal(p, type = "histogram", 
+           groupColour = TRUE,
+           groupFill = TRUE)
